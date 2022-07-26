@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Sensors</title>
+</head>
+<script>
+fetch("https://goodfred.dev/sensors").then(
+res => {
+  res.json().then(
+    data => {
+      if (data.length > 0) {
+
+        var temp = "";
+        data.forEach(itemData => {
+          temp += "<tr";
+          console.log(itemData.is_underweight)
+          if (itemData.is_underweight == true) {
+              temp += ' class="underweight"'
+              console.log(temp)
+          };
+          temp += ">";
+          temp += "<td>" + itemData.sensor_id + "</td>";
+          temp += "<td>" + itemData.sensor_name + "</td>";
+          temp += "<td>" + itemData.is_underweight + "</td>";
+          temp += "<td>" + itemData.last_weight + "</td>";
+          temp += "<td>" + itemData.last_reading_time + "</td></tr>";
+        });
+        document.getElementById('data').innerHTML = temp;
+      }
+    }
+  )
+}
+)
+</script>
+<body>
+    <h1>Weight Sensors</h1>
+    <p>Red means under the specified weight threshold for that sensor.</p>
+    <div class="container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Underweight</th>
+              <th>Weight</th>
+              <th>Last Report</th>
+            </tr>
+          </thead>
+          <tbody id="data">
+
+          </tbody>
+        </table>
+      </div>
+</body>
+</html>
